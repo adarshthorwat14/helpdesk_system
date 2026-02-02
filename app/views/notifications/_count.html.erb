@@ -1,0 +1,4 @@
+<% unread = user.notifications.where(read: false).count %>
+<% if unread > 0 %>
+  (<%= unread %>)
+<% end %>

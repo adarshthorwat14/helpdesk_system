@@ -1,0 +1,13 @@
+<%= turbo_stream.replace "notification_#{@notification.id}" do %>
+  <div class="notification-item">
+    <p class="notification-message"><%= @notification.message %></p>
+    <small class="read-label">(Read)</small>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "notification_count" do %>
+  <% count = current_user.notifications.where(read: false).count %>
+  <% if count > 0 %>
+    <span class="badge"><%= count %></span>
+  <% end %>
+<% end %>

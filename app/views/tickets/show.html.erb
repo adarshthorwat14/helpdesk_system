@@ -1,0 +1,69 @@
+<div class="ticket-show">
+
+  <div class="top-bar">
+    <%= link_to "← Back to Tickets", tickets_path, class: "back-link" %>
+  </div>
+
+  <div class="ticket-card">
+    <h2><%= @ticket.title %></h2>
+
+    <div class="ticket-meta">
+      <span class="status <%= @ticket.status %>">
+        <%= @ticket.status.titleize %>
+      </span>
+
+      <span><strong>Priority:</strong> <%= @ticket.priority %></span>
+      <span><strong>Category:</strong> <%= @ticket.category %></span>
+    </div>
+  </div>
+
+  <!-- COMMENTS -->
+  <div class="comments-section">
+    <h3>Comments</h3>
+
+    <% @ticket.comments.each do |comment| %>
+      <% next if comment.internal && current_user.user? %>
+
+      <div class="comment <%= 'internal' if comment.internal %>">
+        <div class="comment-header">
+          <strong><%= comment.user.email %></strong>
+          <% if comment.internal %>
+            <span class="internal-badge">Internal</span>
+          <% end %>
+        </div>
+
+        <p><%= comment.body %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- ADD COMMENT -->
+  <div class="comment-form">
+    <h3>Add Comment</h3>
+
+    <%= form_with model: [@ticket, Comment.new], local: true do |f| %>
+      <%= f.text_area :body, rows: 4, placeholder: "Write your comment..." %>
+
+      <% if current_user.admin? || current_user.agent? %>
+        <div class="checkbox">
+          <%= f.check_box :internal %>
+          <%= f.label :internal, "Internal Note" %>
+        </div>
+      <% end %>
+
+      <div class="form-actions">
+        <%= f.submit "Add Comment", class: "btn primary" %>
+
+        <% if current_user.role == "user" && @ticket.status == "resolved" %>
+          <%= form_with url: update_status_ticket_path(@ticket),
+                        method: :patch,
+                        local: true do %>
+            <%= hidden_field_tag :status, "closed" %>
+            <%= submit_tag "Confirm & Close Ticket", class: "btn danger" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+</div>

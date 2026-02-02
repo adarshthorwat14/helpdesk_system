@@ -1,0 +1,402 @@
+/* PAGE HEADER */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.welcome-text {
+  color: #555;
+  margin-top: 5px;
+}
+
+/* BUTTONS */
+.btn {
+  display: flex;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn.primary {
+  padding: 6px 12px;
+  background: #007bff;
+  color: white;
+}
+
+.btn.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn.danger {
+    margin-top: 10px;
+    padding: 6px 20px;
+  background: #dc3545;
+  color: white;
+}
+
+.btn.small {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.btn.link {
+  background: none;
+  color: #007bff;
+}
+
+/* TABLE */
+.tickets-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.tickets-table th,
+.tickets-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.tickets-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.tickets-table tr:hover {
+  background: #f9f9f9;
+}
+
+/* STATUS BADGES */
+.status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.open {
+  background: #ffeeba;
+  color: #856404;
+}
+
+.status.in_progress {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status.closed {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* ACTIONS */
+.actions-cell {
+  min-width: 200px;
+}
+
+.inline-form {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+/* FORM CONTAINER */
+.form-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.form-container h1 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* FORM */
+.ticket-form .form-group {
+  margin-bottom: 15px;
+}
+
+.ticket-form label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.ticket-form input,
+.ticket-form textarea,
+.ticket-form select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.ticket-form input:focus,
+.ticket-form textarea:focus,
+.ticket-form select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* ACTIONS */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+
+/* SHOW PAGE */
+.ticket-show {
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+/* TOP */
+.top-bar {
+  margin-bottom: 15px;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+/* TICKET CARD */
+.ticket-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 25px;
+}
+
+.ticket-meta {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* STATUS */
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.open { background: #ffeeba; }
+.status.in_progress { background: #cce5ff; }
+.status.resolved { background: #d4edda; }
+.status.closed { background: #e2e3e5; }
+
+/* COMMENTS */
+.comments-section {
+  margin-bottom: 25px;
+}
+
+.comment {
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.comment.internal {
+  background: #fff3cd;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.internal-badge {
+  font-size: 11px;
+  color: #856404;
+}
+
+/* COMMENT FORM */
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox {
+  margin-bottom: 10px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+/* DASHBOARD */
+.dashboard {
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+/* HEADER */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+/* CARDS */
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.stat-card p {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+/* COLOR VARIANTS */
+.stat-card.open {
+  border-top: 4px solid #ffc107;
+}
+
+.stat-card.progress {
+  border-top: 4px solid #007bff;
+}
+
+.stat-card.resolved {
+  border-top: 4px solid #28a745;
+}
+
+.stat-card.closed {
+  border-top: 4px solid #6c757d;
+}
+
+/* LOGIN PAGE */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f6f8;
+}
+
+.login-card {
+  background: #fff;
+  padding: 35px 30px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-card h2 {
+  margin-bottom: 8px;
+}
+
+.login-card .login-subtitle {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-form .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.login-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"],
+.login-form input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.login-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.login-form .remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.login-form .form-actions {
+  margin-top: 20px;
+}
+
+.forgot-password {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.forgot-password a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+
+

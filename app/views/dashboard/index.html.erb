@@ -1,0 +1,49 @@
+<div class="dashboard">
+
+  <div class="dashboard-header">
+    <div>
+      <h1>Help Desk Dashboard</h1>
+      <p class="welcome-text">
+        Welcome,
+        <strong><%= current_user.name.presence || current_user.email %></strong>
+        (<%= current_user.role.capitalize %>)
+      </p>
+    </div>
+
+    <div class="dashboard-actions">
+      <%= link_to "View Tickets", tickets_path, class: "btn primary" %>
+      <%= button_to "Logout",
+            destroy_user_session_path,
+            method: :delete,
+            class: "btn danger" %>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Tickets</h3>
+      <p><%= @total_tickets %></p>
+    </div>
+
+    <div class="stat-card open">
+      <h3>Open</h3>
+      <p><%= @open_tickets %></p>
+    </div>
+
+    <div class="stat-card progress">
+      <h3>In Progress</h3>
+      <p><%= @progress_tickets %></p>
+    </div>
+
+    <div class="stat-card resolved">
+      <h3>Resolved</h3>
+      <p><%= @resolved_tickets %></p>
+    </div>
+
+    <div class="stat-card closed">
+      <h3>Closed</h3>
+      <p><%= @closed_tickets %></p>
+    </div>
+  </div>
+
+</div>

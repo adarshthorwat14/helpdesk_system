@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Helpdesk System" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Helpdesk System">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= javascript_importmap_tags %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  
+  </head>
+
+<body>
+  <% if user_signed_in? %>
+    <header class="topbar">
+      <div class="logo">
+        Helpdesk System
+      </div>
+
+      <div class="notification-wrapper">
+        <span id="notification-bell" class="bell">
+          🔔
+        </span>
+
+        <turbo-frame id="notification_count">
+          <% count = current_user.notifications.where(read: false).count %>
+          <% if count > 0 %>
+            <span class="badge"><%= count %></span>
+          <% end %>
+        </turbo-frame>
+
+        <div id="notification-dropdown" class="dropdown">
+          <%= turbo_stream_from "notifications_#{current_user.id}" %>
+          <%= render "notifications/dropdown" %>
+        </div>
+      </div>
+
+    </header>
+  <% end %>
+
+  <% if notice %>
+    <div class="flash success"><%= notice %></div>
+  <% end %>
+
+  <main class="container">
+    <%= yield %>
+  </main>
+</body>
+
+
+<script>
+  document.addEventListener("turbo:load", () => {
+    const bell = document.getElementById("notification-bell");
+    const dropdown = document.getElementById("notification-dropdown");
+
+    if (!bell || !dropdown) return;
+
+    bell.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block";
+    });
+
+
+    document.addEventListener("click", () => {
+      dropdown.style.display = "none";
+    });
+  });
+</script>
+
+</html>

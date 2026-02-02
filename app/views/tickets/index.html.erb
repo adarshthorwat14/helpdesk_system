@@ -1,0 +1,150 @@
+<div class="tickets-index">
+
+  <!-- HEADER -->
+  <div class="page-header improved-header">
+    <div class="header-left">
+      <%= link_to "← Back",
+            current_user.user? ? user_dashboard_path : tickets_path,
+            class: "btn btn-back" %>
+
+      <div class="title-block">
+        <p class="welcome-text">
+          Welcome,
+          <strong><%= current_user.name || current_user.email %></strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <% unless current_user.agent? || current_user.admin? %>
+        <%= link_to "New Ticket", new_ticket_path, class: "btn btn-primary" %>
+      <% end %>
+
+      <%= button_to "Logout",
+            destroy_user_session_path,
+            method: :delete,
+            class: "btn btn-danger",
+            form_class: "logout-form" %>
+    </div>
+  </div>
+
+<div class="ticket-toolbar">
+  <%= form_with url: tickets_path, method: :get, local: true, class: "toolbar-form" do %>
+
+    <!-- LEFT: STATUS FILTER -->
+    <div class="toolbar-left">
+      <%= select_tag :status,
+            options_for_select(
+              [["All", ""], ["Open", "open"], ["In Progress", "in_progress"],
+               ["Resolved", "resolved"], ["Closed", "closed"]],
+              params[:status]
+            ),
+            class: "filter-select",
+            onchange: "this.form.submit()" %>
+    </div>
+
+    <!-- CENTER: SEARCH -->
+    <div class="toolbar-center">
+      <%= text_field_tag :query, params[:query],
+            placeholder: "Search by Ticket ID or Title",
+            class: "search-input" %>
+    </div>
+
+  <% end %>
+</div>
+
+
+
+
+  <!-- TICKET LIST (SCROLLABLE) -->
+  <div class="ticket-list-container">
+    <table class="tickets-table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Priority</th>
+          <th>SLA</th>
+          <th>Status</th>
+          <th>Assigned</th>
+          <th>Category</th>
+          <th>Created</th>
+          <th>Created By</th>
+          <th>Last Activity</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @tickets.each do |ticket| %>
+          <tr class="<%= 'active' if ticket == @selected_ticket %>">
+          <td><%= ticket.id %></td>
+            <td>
+              <%= link_to tickets_path(selected_ticket_id: ticket.id),
+                    class: "ticket-link" do %>
+
+                <span class="ticket-title"><%= ticket.title %></span>
+
+                <% if ticket.unread_comments_count.to_i > 0 %>
+                  <span class="unread-badge">
+                    <%= ticket.unread_comments_count %>
+                  </span>
+                <% end %>
+
+              <% end %>
+            </td>
+
+            <td><%= ticket.priority %></td>
+            <td>
+                <% case ticket.sla_status %>
+                <% when "good" %>
+                  <span class="sla-badge good">✔︎ On Time</span>
+                <% when "warning" %>
+                  <span class="sla-badge warning">⚠︎ Soon</span>
+                <% when "critical" %>
+                  <span class="sla-badge critical">❗Urgent</span>
+                <% when "breached" %>
+                  <span class="sla-badge breached">❌ Breached</span>
+                <% end %>
+              </td>
+            <td>
+              <span class="status <%= ticket.status %>">
+                <%= ticket.status.titleize %>
+              </span>
+            </td>
+
+            <td><%= ticket.agent&.email || "—" %></td>
+            <td><%= ticket.category %></td>
+            <td><%= ticket.created_at.strftime("%d %b %Y") %></td>
+            <td><%= ticket.user.email %></td>
+            <td><%= ticket.last_commented_at ? time_ago_in_words(ticket.last_commented_at) + " ago" : "—" %></td>
+          </tr>
+        <% end %>
+
+        <% if @tickets.empty? %>
+          <tr>
+            <td colspan="6" class="empty-state">
+              No tickets available
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="ticket-bottom">
+
+    <!-- COMMUNICATION -->
+    <div class="ticket-communication">
+      <%= render "communication" %>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="ticket-details">
+      <%= render "details" %>
+      <%= render "activity" %>
+    </div>
+
+  </div>
+
+</div>

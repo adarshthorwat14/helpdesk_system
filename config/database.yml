@@ -1,0 +1,72 @@
+# ********************  My_original_added_code  ***********************
+
+# default: &default
+#   adapter: postgresql
+#   encoding: unicode
+#   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+
+# development:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: helpdesk_system_development
+#   pool: 5
+#   username: postgres
+#   password: root
+#   host: 127.0.0.1
+#   port: 5432
+
+
+# test:
+#   <<: *default
+#   database: helpdesk_system_test
+
+# production:
+#   primary: &primary_production
+#     <<: *default
+#     database: helpdesk_system_production
+#     username: postgres
+#     password: root
+#     host: 127.0.0.1
+#     port: 5432
+#   cache:
+#     <<: *primary_production
+#     database: helpdesk_system_production_cache
+#     migrations_paths: db/cache_migrate
+#   queue:
+#     <<: *primary_production
+#     database: helpdesk_system_production_queue
+#     migrations_paths: db/queue_migrate
+#   cable:
+#     <<: *primary_production
+#     database: helpdesk_system_production_cable
+#     migrations_paths: db/cable_migrate
+
+
+
+# *************  For deployment  ***********************
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+development:
+  <<: *default
+  database: helpdesk_system_development
+  username: postgres
+  password: root
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  database: helpdesk_system_test
+  username: postgres
+  password: root
+  host: localhost
+  port: 5432
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

@@ -1,0 +1,24 @@
+<%= link_to "← Back", user_dashboard_path, class: "btn btn-sm", style: "margin-bottom: 10px; display:inline-block;" %>
+
+<h2>Notifications</h2>
+
+<% @notifications.each do |n| %>
+  
+   <div style="
+  padding:8px;
+  margin-bottom:6px;
+  background:<%= n.read ? '#f1f1f1' : '#e6f0ff' %>;
+">
+  <%= n.message %>
+
+  <% unless n.read %>
+    <%= button_to "Mark as read",
+                  mark_as_read_notification_path(n),
+                  method: :patch %>
+  <% else %>
+    <small>(Read)</small>
+  <% end %>
+</div>
+
+
+<% end %>

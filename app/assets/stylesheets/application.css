@@ -1,0 +1,190 @@
+/* ===== GLOBAL ===== */
+/*
+ *= require tickets_index
+ */
+
+ /*
+ *= require ticket_details
+ */
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f4f6f9;
+  color: #333;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  background: #1f2937;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ===== NOTIFICATION ===== */
+.notification-wrapper {
+  position: relative;
+}
+
+.bell {
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+  position: relative;
+}
+
+.badge {
+  background: red;
+  color: white;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 5px;
+  font-size: 11px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px; 
+  line-height: 1;
+
+  position: absolute;
+  top: -8px;
+  right: -12px;
+
+  box-sizing: border-box;
+  white-space: nowrap;
+
+  transition: all 0.15s ease-in-out;
+}
+
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 320px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: slideDown 0.25s ease;
+  z-index: 1000;
+}
+
+.dropdown h4 {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== FLASH ===== */
+.flash {
+  margin: 15px;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.flash.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* ===== NOTIFICATION DROPDOWN ===== */
+
+.dropdown-title {
+  font-size: 14px;
+  color: black;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  background: #f9fafb;
+}
+
+.notification-list {
+  max-height: 300px;
+  overflow-y: auto;
+ 
+}
+
+.notification-item {
+    color: black;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background 0.2s ease;
+}
+
+.notification-item:hover {
+  background: #f5f7fa;
+}
+
+.notification-item.unread {
+  background: #eef6ff;
+}
+
+.notification-message {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.mark-read {
+  font-size: 12px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.mark-read:hover {
+  text-decoration: underline;
+}
+
+.read-label {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.dropdown-footer {
+  padding: 8px 12px;
+  text-align: center;
+  background: #f9fafb;
+  border-top: 1px solid #eee;
+}
+
+.dropdown-footer a {
+  font-size: 13px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.dropdown-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

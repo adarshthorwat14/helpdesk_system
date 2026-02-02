@@ -1,0 +1,41 @@
+<div class="login-wrapper">
+
+  <div class="login-card">
+    <h2>Help Desk System</h2>
+    <p class="login-subtitle">Sign in to your account</p>
+
+    <%= form_with(model: resource, url: session_path(resource_name), local: true, class: "login-form") do |f| %>
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, placeholder: "Enter your email" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "current-password", placeholder: "Enter your password" %>
+      </div>
+
+      <div class="form-group remember-me">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me, "Remember me" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Log in", class: "btn primary" %>
+      </div>
+
+    <% end %>
+
+     <div class="extra-links">
+      <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+        <p>Don't have an account? <%= link_to "Sign Up", new_registration_path(resource_name) %></p>
+      <% end %>
+
+      <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
+        <p><%= link_to "Forgot your password?", new_password_path(resource_name) %></p>
+      <% end %>
+    </div>
+
+  </div>
+</div>

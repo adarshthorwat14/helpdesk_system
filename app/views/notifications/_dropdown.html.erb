@@ -1,0 +1,29 @@
+<h4 class="dropdown-title">Notifications</h4>
+
+<div class="notification-list">
+  <% current_user.notifications.order(created_at: :desc).limit(5).each do |n| %>
+    <div id="notification_<%= n.id %>"
+         class="notification-item <%= 'unread' unless n.read %>">
+
+      <p class="notification-message">
+        <%= n.message %>
+      </p>
+
+      <% unless n.read %>
+        <%= link_to "Mark as read",
+                    mark_as_read_notification_path(n),
+                    data: {
+                      turbo_method: :patch,
+                      turbo_stream: true
+                    },
+                    class: "mark-read" %>
+      <% else %>
+        <span class="read-label">Read</span>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="dropdown-footer">
+  <%= link_to "View all notifications", notifications_path %>
+</div>

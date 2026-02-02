@@ -1,0 +1,95 @@
+<div class="ticket-details-panel">
+<% if @selected_ticket.present? %>
+
+  <div class="details-card">
+
+    <!-- TITLE -->
+    <div class="title-header">
+    <h3><%= @selected_ticket.title %></h3>
+    <span class="description-time">
+          <%= @selected_ticket.created_at.strftime("%d %b %Y, %I:%M %p") %>
+    </span>
+    </div>
+
+    <!-- META -->
+    <p>
+      <strong>Status:</strong>
+      <span class="status <%= @selected_ticket.status %>">
+        <%= @selected_ticket.status.titleize %>
+      </span>
+    </p>
+
+    <p><strong>Priority:</strong> <%= @selected_ticket.priority %></p>
+    <p><strong>Category:</strong> <%= @selected_ticket.category %></p>
+    <div class="ticket-description">
+    
+        <strong>Issue Description:</strong>
+      <div class="description-body">
+        <%= simple_format(@selected_ticket.description) %>
+      </div>
+    </div>
+    
+
+    <% if @selected_ticket.agent %>
+      <p><strong>Assigned to:</strong> <%= @selected_ticket.agent.email %></p>
+    <% else %>
+      <p><strong>Assigned to:</strong> —</p>
+    <% end %>
+
+
+    <!-- ACTIONS -->
+     <!-- ASSIGN AGENT (ADMIN ONLY) -->
+    <% if current_user.admin? && @selected_ticket.agent.nil? %>
+      <div class="detail-action">
+        <h4>Assign Agent</h4>
+
+        <%= form_with url: assign_ticket_path(@selected_ticket),
+                      method: :patch,
+                      local: true do %>
+
+          <%= select_tag :agent_id,
+                options_from_collection_for_select(
+                  User.where(role: "agent"),
+                  :id,
+                  :email
+                ),
+                prompt: "Select agent" %>
+
+          <%= submit_tag "Assign",
+                class: "btn btn-primary btn-small" %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if current_user.admin? || current_user.agent? %>
+
+      <!-- UPDATE STATUS -->
+      <div class="detail-action">
+        <h4>Update Status</h4>
+
+        <%= form_with url: update_status_ticket_path(@selected_ticket),
+                      method: :patch,
+                      local: true do %>
+
+          <%= select_tag :status,
+                options_for_select(
+                  @selected_ticket.next_statuses(current_user.role),
+                  @selected_ticket.status
+                ) %>
+
+          <%= submit_tag "Update",
+                class: "btn btn-secondary btn-small" %>
+        <% end %>
+      </div>
+
+    <% end %>
+
+  </div>
+
+<% else %>
+
+  <div class="empty-state">
+    <p>Select a ticket to see details</p>
+  </div>
+
+<% end %>
+</div>

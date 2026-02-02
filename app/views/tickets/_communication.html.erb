@@ -1,0 +1,66 @@
+<div class="ticket-show">
+
+<% if @selected_ticket.present? %>
+  <div class="ticket-header">
+  <div class="communication-title">
+    <h3>Communication</h3>
+  </div>
+
+  <div class="ticket-title">
+    <h2> Title : <%= @selected_ticket.title %></h2>
+  </div>
+</div>
+
+
+
+    <!-- COMMENTS -->
+    <div class="comments-section">
+      <% @selected_ticket.comments.each do |comment| %>
+        <% next if comment.internal && current_user.user? %>
+
+        <div class="comment <%= 'internal' if comment.internal %>">
+          <div class="comment-header">
+            <strong><%= comment.user.email %></strong>
+            <span class="comment-time">
+            <%= comment.commented_at ? time_ago_in_words(comment.commented_at) + " ago" : "No timestamp" %>
+          </span>
+
+            <% if comment.internal %>
+              <span class="internal-badge">Internal</span>
+            <% end %>
+          </div>
+
+          <p><%= comment.body %></p>
+        </div>
+      <% end %>
+
+      <% if @selected_ticket.comments.empty? %>
+        <p class="empty-state">No messages yet</p>
+      <% end %>
+    </div>
+
+    <!-- ADD COMMENT -->
+    <div class="comment-form">
+      <%= form_with model: [@selected_ticket, Comment.new], local: true do |f| %>
+        <%= f.text_area :body, rows: 3, placeholder: "Write a reply..." %>
+
+        <% if current_user.admin? || current_user.agent? %>
+          <div class="checkbox">
+            <%= f.check_box :internal %>
+            <%= f.label :internal, "Internal Note" %>
+          </div>
+        <% end %>
+
+        <%= f.submit "Send", class: "btn primary" %>
+      <% end %>
+    </div>
+
+  <% else %>
+
+    <div class="empty-state">
+      <p>Select a ticket to start communication</p>
+    </div>
+
+  <% end %>
+
+</div>

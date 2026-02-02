@@ -1,0 +1,79 @@
+<div class="user-dashboard">
+
+    <% content_for :head do %>
+    <%= stylesheet_link_tag "user_dashboard", "data-turbo-track": "reload" %>
+    <% end %>
+
+  <!-- Welcome Header -->
+  <div class="dashboard-header">
+    <h1>Welcome, <%= current_user.name.presence || current_user.email %>!</h1>
+    <p class="role-text">Role: <%= current_user.role.capitalize %></p>
+
+        <div class="dashboard-actions">
+        <%= link_to "Create Ticket", new_ticket_path, class: "btn primary" %>
+        <%= link_to "My Tickets", tickets_path, class: "btn secondary" %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn logout" %>
+        </div>
+  </div>
+
+  <hr>
+
+  <!-- Ticket Status Cards -->
+  <div class="stats-grid">
+    <div class="stat-card open">
+      <h3>Open</h3>
+      <p><%= current_user.tickets.where(status: "open").count %></p>
+    </div>
+
+    <div class="stat-card progress">
+      <h3>In Progress</h3>
+      <p><%= current_user.tickets.where(status: "in_progress").count %></p>
+    </div>
+
+    <div class="stat-card resolved">
+      <h3>Resolved</h3>
+      <p><%= current_user.tickets.where(status: "resolved").count %></p>
+    </div>
+
+    <div class="stat-card closed">
+      <h3>Closed</h3>
+      <p><%= current_user.tickets.where(status: "closed").count %></p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Recent Tickets Table -->
+  <h2>My Recent Tickets</h2>
+  <table class="tickets-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Status</th>
+         <th>Confirmation</th>
+        <th>Last Updated</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% current_user.tickets.order(created_at: :desc).limit(5).each do |ticket| %>
+        <tr class="<%= 'highlight-unread' if ticket.status == 'open' %>">
+          <td><%= ticket.title %></td>
+          <td><%= ticket.category %></td>
+          <td><%= ticket.priority %></td>
+          <td><%= ticket.status.capitalize %></td>
+          <!-- CONFIRMATION COLUMN -->
+          <td><%= ticket.updated_at.strftime("%d %b %Y %H:%M") %></td>
+          <td><%= link_to "View & Comment", ticket_path(ticket), class: "btn small" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="view-all">
+    <%= link_to "View All My Tickets", tickets_path, class: "btn" %>
+  </div>
+</div>

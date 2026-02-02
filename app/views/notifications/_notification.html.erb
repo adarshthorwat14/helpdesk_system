@@ -1,0 +1,19 @@
+<div id="notification_<%= notification.id %>" class="notification-item <%= 'unread' unless notification.read %>">
+  <div class="notification-message">
+    <p><%= notification.message %></p>
+  </div>
+
+  <div class="notification-actions">
+    <% unless notification.read %>
+      <%= button_to "Mark as read",
+                    mark_as_read_notification_path(notification),
+                    method: :patch,
+                    data: { turbo_stream: true },
+                    form: { class: "mark-read-form" } %>
+    <% else %>
+      <span class="read-label">(Read)</span>
+    <% end %>
+  </div>
+
+  <hr class="notification-divider">
+</div>

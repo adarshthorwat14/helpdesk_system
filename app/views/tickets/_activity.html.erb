@@ -1,0 +1,27 @@
+<!-- _activity.html.erb -->
+<div class="activity-card">
+  <h4>Activity</h4>
+
+  <% if @selected_ticket.present? && @selected_ticket.ticket_activities.any? %>
+  <% @selected_ticket.ticket_activities.order(created_at: :desc).each do |activity| %>
+    <div class="activity-item">
+      <div class="activity-dot"></div>
+
+      <div class="activity-content">
+        <strong><%= activity.user&.email || "System" %></strong>
+        <span><%= activity.action.humanize %></span>
+
+        <small>
+          <%= activity.metadata %> •
+          <%= time_ago_in_words(activity.created_at) %> ago
+        </small>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="no-activity">
+    <p>No activity yet for this ticket</p>
+  </div>
+<% end %>
+
+</div>
