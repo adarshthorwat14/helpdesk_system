@@ -44,64 +44,65 @@ class TicketsController < ApplicationController
         end
 
       @selected_ticket&.update_column(:last_viewed_at, Time.current)
-  end
-
-
-
-
-
-  def show
-    @ticket = Ticket.find(params[:id])
-  end
-
-  def new
-    @ticket = Ticket.new
-  end
-
-  def create
-    @ticket = current_user.tickets.build(ticket_params)
-    @ticket.status = "open"
-    @ticket.last_commented_at = Time.current
-    if @ticket.save
-      NotificationService.notify(
-        User.where(role: %w[admin agent]),
-        "New ticket created: #{@ticket.title}",
-        @ticket
-      )
-      TicketActivityLogger.log(
-        ticket: @ticket,
-        user: current_user,
-        action: "created",
-        metadata: "Ticket created"
-      )
-      redirect_to tickets_path, notice: "Ticket created successfully"
-    else
-      render :new
     end
-  end
 
-  def assign
-    @ticket = Ticket.find(params[:id])
 
-    if current_user.admin?
-      @ticket.update(agent_id: params[:agent_id], status: "in_progress")
 
-      NotificationService.notify(
-        @ticket.agent,
-        "You have been assigned ticket ##{@ticket.id}",
-        @ticket
-      )
-      TicketActivityLogger.log(
-        ticket: @ticket,
-        user: current_user,
-        action: "assigned",
-        metadata: "Assigned to #{@ticket.agent.email}"
-      )
-      redirect_to tickets_path
-    else
-      redirect_to tickets_path, alert: "Not authorized"
+
+
+      def show
+        @ticket = Ticket.find(params[:id])
+      end
+
+      def new
+        @ticket = Ticket.new
+      end
+
+      def create
+        @ticket = current_user.tickets.build(ticket_params)
+        @ticket.status = "open"
+        @ticket.last_commented_at = Time.current
+        if @ticket.save
+          NotificationService.notify(
+            User.where(role: %w[admin agent]),
+            "New ticket created: #{@ticket.title}",
+            @ticket
+          )
+          TicketActivityLogger.log(
+            ticket: @ticket,
+            user: current_user,
+            action: "created",
+            metadata: "Ticket created"
+          )
+          redirect_to tickets_path, notice: "Ticket created successfully"
+        else
+          render :new
+        end
+      end
+
+    def assign
+      @ticket = Ticket.find(params[:id])
+
+      if current_user.admin?
+        @ticket.update(agent_id: params[:agent_id], status: "in_progress")
+
+        NotificationService.notify(
+          @ticket.agent,
+          "You have been assigned ticket ##{@ticket.id}",
+          @ticket
+        )
+      
+        TicketActivityLogger.log(
+          ticket: @ticket,
+          user: current_user,
+          action: "assigned",
+          metadata: "Assigned to #{@ticket.agent.email}"
+        )
+        redirect_to tickets_path
+      else
+        redirect_to tickets_path, alert: "Not authorized"
+      end
     end
-  end
 
     def update_status
       @ticket = Ticket.find(params[:id])
@@ -115,7 +116,7 @@ class TicketsController < ApplicationController
           "Ticket ##{@ticket.id} status changed to #{@ticket.status}",
           @ticket
         )
-
+        
         TicketActivityLogger.log(
           ticket: @ticket,
           user: current_user,
@@ -186,7 +187,7 @@ class TicketsController < ApplicationController
     params.require(:ticket).permit(:title, :description, :priority, :category)
   end
 
-    def set_ticket
+  def set_ticket
     @ticket = Ticket.find(params[:id])
   end
 end

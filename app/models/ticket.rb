@@ -4,7 +4,8 @@ class Ticket < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :ticket_activities, dependent: :destroy
   before_create :set_initial_activity_time
-
+  after_update :send_assignment_email, if: :saved_change_to_agent_id?
+  
   STATUSES = %w[open in_progress resolved closed]
   PRIORITIES = %w[low medium high critical]
 
@@ -60,6 +61,11 @@ end
 
 def set_initial_activity_time
   self.last_commented_at ||= Time.current
+end
+
+
+def send_assignment_email
+  TicketMailer.ticket_assigned(agent, self).deliver_later
 end
 
 end
